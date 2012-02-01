@@ -66,9 +66,9 @@
 
 	window.Media = {
 		init : function() {
-			var html, editor, self = this;
+			var html, editor;
 
-			self.editor = editor = tinyMCEPopup.editor;
+			this.editor = editor = tinyMCEPopup.editor;
 
 			// Setup file browsers and color pickers
 			get('filebrowsercontainer').innerHTML = getBrowserHTML('filebrowser','src','media','media');
@@ -80,7 +80,7 @@
 			get('audio_altsource2_filebrowser').innerHTML = getBrowserHTML('audio_filebrowser_altsource2','audio_altsource2','media','media');
 			get('video_poster_filebrowser').innerHTML = getBrowserHTML('filebrowser_poster','video_poster','media','image');
 
-			html = self.getMediaListHTML('medialist', 'src', 'media', 'media');
+			html = this.getMediaListHTML('medialist', 'src', 'media', 'media');
 			if (html == "")
 				get("linklistrow").style.display = 'none';
 			else
@@ -104,12 +104,11 @@
 			if (isVisible('filebrowser_poster'))
 				get('video_poster').style.width = '220px';
 
-			editor.dom.setOuterHTML(get('media_type'), self.getMediaTypeHTML(editor));
+			editor.dom.setOuterHTML(get('media_type'), this.getMediaTypeHTML(editor));
 
-			self.setDefaultDialogSettings(editor);
-			self.data = clone(tinyMCEPopup.getWindowArg('data'));
-			self.dataToForm();
-			self.preview();
+			this.data = clone(tinyMCEPopup.getWindowArg('data'));
+			this.dataToForm();
+			this.preview();
 
 			updateColor('bgcolor_pick', 'bgcolor');
 		},
@@ -427,33 +426,23 @@
 		},
 
 		getMediaTypeHTML : function(editor) {
-			function option(media_type){
-				return '<option value="'+media_type+'">'+tinyMCEPopup.editor.translate("media_dlg."+media_type)+'</option>'
-			}
 			var html = "";
 			html += '<select id="media_type" name="media_type" onchange="Media.formToData(\'type\');">';
-			html += option("video");
-			html += option("audio");
-			html += option("flash");
-			html += option("quicktime");
-			html += option("shockwave");
-			html += option("windowsmedia");
-			html += option("realmedia");
-			html += option("iframe");
+			html += '<option value="video">HTML5 Video</option>';
+			html += '<option value="audio">HTML5 Audio</option>';
+			html += '<option value="flash">Flash</option>';
+			html += '<option value="quicktime">QuickTime</option>';
+			html += '<option value="shockwave">Shockwave</option>';
+			html += '<option value="windowsmedia">Windows Media</option>';
+			html += '<option value="realmedia">Real Media</option>';
+			html += '<option value="iframe">Iframe</option>';
 
 			if (editor.getParam('media_embedded_audio', false)) {
-				html += option('embeddedaudio');
+				html += '<option value="embeddedaudio">Embedded Audio</option>';
 			}
 			
 			html += '</select>';
 			return html;
-		},
-
-		setDefaultDialogSettings : function(editor) {
-			var defaultDialogSettings = editor.getParam("media_dialog_defaults", {});
-			tinymce.each(defaultDialogSettings, function(v, k) {
-				setVal(k, v);
-			});
 		}
 	};
 

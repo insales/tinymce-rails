@@ -8,6 +8,12 @@
 	<script type="text/javascript" src="../../utils/validate.js"></script>
 	<script type="text/javascript" src="../../utils/editable_selects.js"></script>
 	<script type="text/javascript" src="js/image.js"></script>
+        <!-- Insales start -->
+        <script type="text/javascript" src="/javascripts/jquery-1.3.2.min.js"></script>
+        <script type="text/javascript" src="/javascripts/jquery.form.js"></script>
+        <script type="text/javascript" src="/javascripts/backoffice/tiny_mce_image_upload.js"></script>
+        <link href="/stylesheets/backoffice/tiny_mce_image_upload.css" rel="stylesheet" type="text/css" />
+        <!-- Insales end -->
 	<link href="css/advimage.css" rel="stylesheet" type="text/css" />
 </head>
 <body id="advimage" style="display: none" role="application" aria-labelledby="app_title">
@@ -38,7 +44,7 @@
 							</tr>
 							<tr>
 								<td><label for="src_list">{#advimage_dlg.image_list}</label></td>
-								<td><select id="src_list" name="src_list" onchange="document.getElementById('src').value=this.options[this.selectedIndex].value;document.getElementById('alt').value=this.options[this.selectedIndex].text;document.getElementById('title').value=this.options[this.selectedIndex].text;ImageDialog.showPreviewImage(this.options[this.selectedIndex].value);"><option value=""></option></select></td>
+								<td><select id="src_list" name="src_list" onchange="document.getElementById('src').value=this.options[this.selectedIndex].value;/*document.getElementById('alt').value=this.options[this.selectedIndex].text;document.getElementById('title').value=this.options[this.selectedIndex].text;*/ImageDialog.showPreviewImage(this.options[this.selectedIndex].value);"><option value=""></option></select></td>
 							</tr>
 							<tr> 
 								<td class="column1"><label id="altlabel" for="alt">{#advimage_dlg.alt}</label></td> 
@@ -48,6 +54,9 @@
 								<td class="column1"><label id="titlelabel" for="title">{#advimage_dlg.title}</label></td> 
 								<td colspan="2"><input id="title" name="title" type="text" value="" /></td> 
 							</tr>
+                                                        <!-- Insales start -->
+                                                        <tr><td colspan="2"><span class="action" id="upload_image_link" onclick="toggleUploadImageForm();">{#advimage_dlg.image_upload_link}</span></td></tr>
+                                                        <!-- Insales end -->
 						</table>
 				</fieldset>
 
@@ -230,6 +239,26 @@
 			<input type="submit" id="insert" name="insert" value="{#insert}" />
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 		</div>
-	</form>
+    </form>
+    <!-- Insales start -->
+    <div id="image_upload_container">
+        <div class="error"></div>
+        <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/admin/files/fast_upload_create.json" >
+            <input type="hidden" name="file[only_image]" value="true" />
+            <input type="file" name="file[inner]" class="uploading" style="width:200px;" onchange="uploadImage();"/>
+            <div class="uploading" style="display: none;">
+                <img src="/images/ajax_indicator.gif" alt="Ajax_indicator"/>
+                <b>{#advimage_dlg.uploading}</b>
+            </div>
+            <span class="action" id="close_link" onclick="toggleUploadImageForm();">{#advimage_dlg.close}</span>
+        </form>
+    </div>
+    <table id="src_list_container" style="display: none">
+        <tr>
+            <td><label for="src_list">{#advimage_dlg.image_list}</label></td>
+            <td><select id="src_list" name="src_list" onchange="document.getElementById('src').value=this.options[this.selectedIndex].value;/*document.getElementById('alt').value=this.options[this.selectedIndex].text;document.getElementById('title').value=this.options[this.selectedIndex].text;*/ImageDialog.showPreviewImage(this.options[this.selectedIndex].value);"><option value=""></option></select></td>
+        </tr>
+    </table>
+    <!-- Insales end -->
 </body> 
 </html> 
