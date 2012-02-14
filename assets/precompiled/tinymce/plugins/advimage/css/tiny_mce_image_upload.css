@@ -1,0 +1,8 @@
+.action {cursor: pointer; color: #314B6E; border-bottom: dotted 1px}
+.action:hover {border-bottom: none;}
+.uploading {line-height: 14px;}
+#upload_image_button {cursor: pointer;}
+#close_link {position: absolute; bottom: 5px; right: 5px;}
+#image_upload_container {display:none; position: absolute; left:20px; top: 150px; width: 240px; z-index:100; padding:15px; border:1px solid #ccc; background:#ebebeb; opacity:0.9; -ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)'; filter: alpha(opacity=80); zoom:1;}
+#image_upload_container input {width:140px !important;}
+.error {color:red}
