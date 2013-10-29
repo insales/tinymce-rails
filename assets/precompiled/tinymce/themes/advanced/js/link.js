@@ -90,7 +90,6 @@ var LinkDialog = {
 
 	fillFileList : function(id, l) {
         if (!l) { return; }
-        console.log(id);
         jQuery('#' + id).autocomplete(l, {
             scroll: true,
             minChars: 0,
@@ -150,5 +149,4 @@ var LinkDialog = {
 	}
 };
 
-LinkDialog.preInit();
 tinyMCEPopup.onInit.add(LinkDialog.init, LinkDialog);
