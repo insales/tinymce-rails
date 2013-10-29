@@ -6,13 +6,6 @@ var templates = {
 	"window.open" : "window.open('${url}','${target}','${options}')"
 };
 
-function preinit() {
-	var url;
-
-	if (url = tinyMCEPopup.getParam("external_link_list_url"))
-		document.write('<script language="javascript" type="text/javascript" src="' + tinyMCEPopup.editor.documentBaseURI.toAbsolute(url) + '"></script>');
-}
-
 function changeClass() {
 	var f = document.forms[0];
 
@@ -32,12 +25,7 @@ function init() {
 	document.getElementById('popupurlbrowsercontainer').innerHTML = getBrowserHTML('popupurlbrowser','popupurl','file','advlink');
 	document.getElementById('targetlistcontainer').innerHTML = getTargetListHTML('targetlist','target');
 
-	// Link list
-	html = getLinkListHTML('linklisthref','href');
-	if (html == "")
-		document.getElementById("linklisthrefrow").style.display = 'none';
-	else
-		document.getElementById("linklisthrefcontainer").innerHTML = html;
+    autocompleteLinks('href');
 
 	// Anchor list
 	html = getAnchorListHTML('anchorlist','href');
@@ -474,6 +462,31 @@ function getSelectValue(form_obj, field_name) {
 	return elm.options[elm.selectedIndex].value;
 }
 
+function autocompleteLinks(id)
+{
+    var l = tinyMCEPopup.getParam('link_list', window['tinyMCELinkList']);
+    if (!l) { return; }
+
+    jQuery('#' + id).autocomplete(l, {
+        scroll: true,
+        max: 100,
+        minChars: 0,
+        parse: function(data) {
+            parsed = [];
+            for (var i = 0; i < data.length; i++)
+            {
+                parsed.push({
+                    data: data[i],
+                    value: data[i][0],
+                    result: data[i][1]
+                });
+            }
+
+            return parsed;
+        }    
+    });
+}
+    
 function getLinkListHTML(elm_id, target_form_element, onchange_func) {
 	if (typeof(tinyMCELinkList) == "undefined" || tinyMCELinkList.length == 0)
 		return "";

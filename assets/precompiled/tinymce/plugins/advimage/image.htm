@@ -9,9 +9,11 @@
 	<script type="text/javascript" src="../../utils/editable_selects.js"></script>
 	<script type="text/javascript" src="js/image.js"></script>
         <!-- Insales start -->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
         <script type="text/javascript" src="js/jquery.form.js"></script>
         <script type="text/javascript" src="js/tiny_mce_image_upload.js"></script>
+        <link href="css/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
         <link href="css/tiny_mce_image_upload.css" rel="stylesheet" type="text/css" />
         <!-- Insales end -->
 	<link href="css/advimage.css" rel="stylesheet" type="text/css" />
@@ -41,10 +43,6 @@
 										<td id="srcbrowsercontainer">&nbsp;</td>
 									</tr>
 								</table></td>
-							</tr>
-							<tr>
-								<td><label for="src_list">{#advimage_dlg.image_list}</label></td>
-								<td><select id="src_list" name="src_list" onchange="document.getElementById('src').value=this.options[this.selectedIndex].value;/*document.getElementById('alt').value=this.options[this.selectedIndex].text;document.getElementById('title').value=this.options[this.selectedIndex].text;*/ImageDialog.showPreviewImage(this.options[this.selectedIndex].value);"><option value=""></option></select></td>
 							</tr>
 							<tr> 
 								<td class="column1"><label id="altlabel" for="alt">{#advimage_dlg.alt}</label></td> 
@@ -167,10 +165,6 @@
 									</tr>
 								</table></td>
 							</tr>
-							<tr>
-								<td><label for="over_list">{#advimage_dlg.image_list}</label></td>
-								<td><select id="over_list" name="over_list" onchange="document.getElementById('onmouseoversrc').value=this.options[this.selectedIndex].value;"><option value=""></option></select></td>
-							</tr>
 							<tr> 
 								<td class="column1"><label id="onmouseoutsrclabel" for="onmouseoutsrc">{#advimage_dlg.mouseout}</label></td> 
 								<td class="column2"><table role="presentation" border="0" cellspacing="0" cellpadding="0"> 
@@ -179,10 +173,6 @@
 										<td id="onmouseoutsrccontainer">&nbsp;</td>
 									</tr> 
 								</table></td> 
-							</tr>
-							<tr>
-								<td><label for="out_list">{#advimage_dlg.image_list}</label></td>
-								<td><select id="out_list" name="out_list" onchange="document.getElementById('onmouseoutsrc').value=this.options[this.selectedIndex].value;"><option value=""></option></select></td>
 							</tr>
 					</table>
 				</fieldset>

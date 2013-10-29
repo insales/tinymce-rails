@@ -3,19 +3,26 @@ var ImageDialog = {
 		var url;
 
 		tinyMCEPopup.requireLangPack();
-
-		if (url = tinyMCEPopup.getParam("external_image_list_url"))
-			document.write('<script language="javascript" type="text/javascript" src="' + tinyMCEPopup.editor.documentBaseURI.toAbsolute(url) + '"></script>');
 	},
 
 	init : function(ed) {
-		var f = document.forms[0], nl = f.elements, ed = tinyMCEPopup.editor, dom = ed.dom, n = ed.selection.getNode(), fl = tinyMCEPopup.getParam('external_image_list', 'tinyMCEImageList');
+		var f = document.forms[0],
+            nl = f.elements,
+            ed = tinyMCEPopup.editor,
+            dom = ed.dom,
+            n = ed.selection.getNode(),
+            fl = tinyMCEPopup.getParam('image_list', window['tinyMCEImageList']);
 
 		tinyMCEPopup.resizeToInnerSize();
 		this.fillClassList('class_list');
-		this.fillFileList('src_list', fl);
-		this.fillFileList('over_list', fl);
-		this.fillFileList('out_list', fl);
+
+        if (typeof fl !== 'undefined')
+        {
+		    this.fillFileList('src', fl);
+		    this.fillFileList('onmouseoversrc', fl);
+		    this.fillFileList('onmouseoutsrc', fl);
+        }
+        
 		TinyMCE_EditableSelects.init();
 
 		if (n.nodeName == 'IMG') {
@@ -291,17 +298,37 @@ var ImageDialog = {
 	fillFileList : function(id, l) {
 		var dom = tinyMCEPopup.dom, lst = dom.get(id), v, cl;
 
-		l = typeof(l) === 'function' ? l() : window[l];
-		lst.options.length = 0;
+		// l = typeof(l) === 'function' ? l() : window[l];
+        if (typeof(l) == 'function') { l = l(); }
+        
+        jQuery('#' + id).autocomplete(l, {
+            scroll: true,
+            minChars: 0,
+            parse: function(data) {
+                parsed = [];
+                for (var i = 0; i < data.length; i++)
+                {
+                    parsed.push({
+                        data: data[i],
+                        value: data[i][0],
+                        result: data[i][1]
+                    });
+                }
 
-		if (l && l.length > 0) {
-			lst.options[lst.options.length] = new Option('', '');
+                return parsed;
+            }
+        });
+        
+		// lst.options.length = 0;
 
-			tinymce.each(l, function(o) {
-				lst.options[lst.options.length] = new Option(o[0], o[1]);
-			});
-		} else
-			dom.remove(dom.getParent(id, 'tr'));
+		// if (l && l.length > 0) {
+		// 	lst.options[lst.options.length] = new Option('', '');
+
+		// 	tinymce.each(l, function(o) {
+		// 		lst.options[lst.options.length] = new Option(o[0], o[1]);
+		// 	});
+		// } else
+		// 	dom.remove(dom.getParent(id, 'tr'));
 	},
 
 	resetImageData : function() {
