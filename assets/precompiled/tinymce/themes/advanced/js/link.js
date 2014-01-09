@@ -1,7 +1,13 @@
 tinyMCEPopup.requireLangPack();
 
-
 var LinkDialog = {
+	preInit : function() {
+		var url;
+
+		if (url = tinyMCEPopup.getParam("external_link_list_url"))
+			document.write('<script language="javascript" type="text/javascript" src="' + tinyMCEPopup.editor.documentBaseURI.toAbsolute(url) + '"></script>');
+	},
+
 	init : function() {
 		var f = document.forms[0], ed = tinyMCEPopup.editor;
 
@@ -11,7 +17,7 @@ var LinkDialog = {
 			document.getElementById('href').style.width = '180px';
 
 		this.fillClassList('class_list');
-		this.fillFileList('href', tinyMCEPopup.getParam('link_list', window['tinyMCELinkList']));
+		this.fillFileList('link_list', 'tinyMCELinkList');
 		this.fillTargetList('target_list');
 
 		if (e = ed.dom.getParent(ed.selection.getNode(), 'A')) {
@@ -89,25 +95,18 @@ var LinkDialog = {
 	},
 
 	fillFileList : function(id, l) {
-        if (!l) { return; }
-        console.log(id);
-        jQuery('#' + id).autocomplete(l, {
-            scroll: true,
-            minChars: 0,
-            parse: function(data) {
-                parsed = [];
-                for (var i = 0; i < data.length; i++)
-                {
-                    parsed.push({
-                        data: data[i],
-                        value: data[i][0],
-                        result: data[i][1]
-                    });
-                }
+		var dom = tinyMCEPopup.dom, lst = dom.get(id), v, cl;
 
-                return parsed;
-            }    
-        });
+		l = window[l];
+
+		if (l && l.length > 0) {
+			lst.options[lst.options.length] = new Option('', '');
+
+			tinymce.each(l, function(o) {
+				lst.options[lst.options.length] = new Option(o[0], o[1]);
+			});
+		} else
+			dom.remove(dom.getParent(id, 'tr'));
 	},
 
 	fillClassList : function(id) {
