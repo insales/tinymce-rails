@@ -19,7 +19,7 @@ module TinyMCE
     end
     
     initializer "static assets", :group => :all do |app|
-      if app.config.serve_static_assets
+      if app.config.serve_static_files
         app.config.assets.paths.unshift File.join(asset_root, 'precompiled')
       end
     end
